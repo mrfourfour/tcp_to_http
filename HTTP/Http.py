@@ -11,12 +11,10 @@ class Http(object):
         return "404 Not Found"
     def route(self, routerName, methods=["GET"]):
         def wraps(f):
-            
-            for method in methods:
-                self.routers[routerName.lower()] = {
-                    "func":f,
-                    "method":[i for i in method]
-                    }
+            self.routers[routerName.lower()] = {
+                "func":f,
+                "methods":methods
+                }
             return f
         return wraps
 
@@ -53,7 +51,7 @@ class Http(object):
             except:
                 return "HTTP/1.1 400 Bad Request\n Content_Type: text/html\n\n"+"Bad Request"
             
-        return f()
+        return "HTTP/1.1 400 Bad Request\n Content_Type: text/html\n\n"+str(f())
     def runServer(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.bind((self.host, self.port))

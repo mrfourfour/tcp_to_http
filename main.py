@@ -7,6 +7,10 @@ server = Http.Http(Host, port)
 @server.route("/cal")
 def calculator(a,b):
     return int(a)+int(b)
+
+@server.route("/")
+def hello():
+    return "helloworld!"
     
 
 server.runServer()
